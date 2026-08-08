@@ -20,31 +20,34 @@ export default class Cached {
         if (client) {
             this.client = client;
         }
-        switch (provider) {
-            case "redis":
-                this.client = redisClient({
-                    url: url!,
-                    options: options,
-                });
-                break;
-            case "nodeRedis":
-                this.client = nodeRedisClient({
-                    url: url!,
-                    options: options,
-                });
-                break;
-            case "upstash":
-                this.client = upstashClient({
-                    url: url!,
-                    token: token!,
-                });
-                break;
-            case "memory":
-                this.client = memoryClient();
-                break;
+        else {
+            if (provider) {
+                switch (provider) {
+                    case "redis":
+                        this.client = redisClient({
+                            url: url!,
+                            ...options,
+                        });
+                        break;
+                    case "nodeRedis":
+                        this.client = nodeRedisClient({
+                            url: url!,
+                            ...options,
+                        });
+                        break;
+                    case "upstash":
+                        this.client = upstashClient({
+                            url: url!,
+                            token: token!,
+                        });
+                        break;
+                    case "memory":
+                        this.client = memoryClient();
+                        break;
+                }
+            }
         }
     }
-
     async get(key: string) {
         if (this.client instanceof Map) {
             const storedTime = memoryTimeClient().get(key);

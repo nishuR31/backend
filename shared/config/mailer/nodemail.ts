@@ -10,7 +10,7 @@ interface NodemailerOptions {
 export const transporter = ({ host, port, secure, auth }: NodemailerOptions) =>
     new mailer({
         host: host,
-        port: port,
+        port: Number(port),
         secure: secure,
         auth: {
             user: auth.user,

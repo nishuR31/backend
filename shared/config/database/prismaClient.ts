@@ -27,7 +27,10 @@ export function createPrismaClient(databaseUrl: string): PrismaClient {
     const prismaClient = new PrismaClient({
         adapter,
 
-        log: process.env.NODE_ENV === "development" ? ["query", "warn", "error"] : ["error"],
+        log:
+            process.env.NODE_ENV === "development"
+                ? ["query", "warn", "error"]
+                : ["error"],
     });
 
     clients.set(databaseUrl, prismaClient);
@@ -52,9 +55,13 @@ export async function graceFullShutdown(databaseUrl: string) {
 }
 
 export async function disconnectAllPrisma() {
-    await Promise.all([...clients.values()].map((client) => client.$disconnect()));
+    await Promise.all(
+        [...clients.values()].map((client) => client.$disconnect())
+    );
 
-    await Promise.all([...pools.values()].map((pool) => pool.end()));
+    await Promise.all(
+        [...pools.values()].map((pool) => pool.end())
+    );
 
     clients.clear();
     pools.clear();

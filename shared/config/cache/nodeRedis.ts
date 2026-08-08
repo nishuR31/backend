@@ -1,11 +1,11 @@
-import { createClient, type ClientOptions } from "redis";
+import { createClient, type SetOptions } from "redis";
 
-interface NodeClientOptions {
+type NodeClientOptions = {
     url: string;
-    options?: ClientOptions;
-}
+} & SetOptions;
 
-const nodeRedisClient = ({ url, options }: NodeClientOptions) => {
+
+const nodeRedisClient = ({ url, ...options }: NodeClientOptions) => {
     if (!url) {
         throw new Error("Redis connectionString is missing or not found");
     }

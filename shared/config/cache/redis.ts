@@ -1,11 +1,10 @@
 import { Redis, type RedisOptions } from "ioredis";
 
-interface RedisClientOptions {
+type RedisClientOptions = {
     url: string;
-    options?: RedisOptions;
-}
+} & RedisOptions;
 
-const redisClient = ({ url, options }: RedisClientOptions) => {
+const redisClient = ({ url, ...options }: RedisClientOptions) => {
     if (!url) {
         throw new Error("Redis connectionString is missing or not found");
     }

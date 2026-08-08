@@ -6,6 +6,15 @@ import {
     createPrismaClient,
 } from "./prismaClient";
 
+export default {
+    mysqlClient,
+    neonDbClient,
+    mysqlGraceFullShutdown,
+    neonGraceFullShutdown,
+    disconnectAllPrisma,
+    prismaGraceFullShutdown,
+    createPrismaClient,
+};
 export {
     mysqlClient,
     neonDbClient,
