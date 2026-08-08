@@ -3,7 +3,7 @@ export function sendSuccess(
     res: any,
     message: string = "Successfully executed!",
     statusCode: number,
-    payload: Record<string, any> | string | number | boolean | null,
+    payload: Record<string, any> | string | number | boolean | null = {},
     details?: Record<string, any>,
 ) {
     if (res.sent) return res;
