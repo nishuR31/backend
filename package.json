@@ -1,0 +1,35 @@
+{
+  "name": "backend",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "format": "bunx prettier --write .",
+    "git": "bun run git.js"
+  },
+  "devDependencies": {
+    "@prisma/adapter-pg": "^7.9.1",
+    "@types/bun": "latest",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.2.0",
+    "prettier": "^3.9.6"
+  },
+  "peerDependencies": {
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.38.2",
+    "amqplib": "^2.0.1",
+    "bullmq": "^6.0.9",
+    "ioredis": "^6.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "kafkajs": "^2.2.4",
+    "nodemailer": "^9.0.5",
+    "pg": "^8.22.0",
+    "prisma": "^7.9.1",
+    "redis": "^6.2.0",
+    "resend": "^6.18.1",
+    "zod": "^4.4.3"
+  },
+  "version": "1"
+}
