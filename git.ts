@@ -8,20 +8,20 @@ const execAsync = promisify(exec);
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
-const run = async (cmd) => {
+const run = async (cmd: string) => {
   const { stdout, stderr } = await execAsync(cmd, { cwd: process.cwd() });
   return (stdout + stderr).trim();
 };
 
-const rl = readline.createInterface({ input, output });
+const rl: readline.Interface = readline.createInterface({ input, output });
 
-const ask = (q) => rl.question(`\x1b[36m${q}\x1b[0m`);
+const ask = (q: string) => rl.question(`\x1b[36m${q}\x1b[0m`);
 
 const log = {
-  info:    (m) => console.log(`\x1b[32m✔\x1b[0m  ${m}`),
-  warn:    (m) => console.log(`\x1b[33m⚠\x1b[0m  ${m}`),
-  error:   (m) => console.error(`\x1b[31m✖\x1b[0m  ${m}`),
-  section: (m) => console.log(`\n\x1b[1m\x1b[34m── ${m} ──\x1b[0m`),
+  info: (m: any) => console.log(`\x1b[32m✔\x1b[0m  ${m}`),
+  warn: (m: any) => console.log(`\x1b[33m⚠\x1b[0m  ${m}`),
+  error: (m: any) => console.error(`\x1b[31m✖\x1b[0m  ${m}`),
+  section: (m: any) => console.log(`\n\x1b[1m\x1b[34m── ${m} ──\x1b[0m`),
 };
 
 // ── main ─────────────────────────────────────────────────────────────────────
@@ -102,7 +102,7 @@ async function main() {
     log.section("Done");
     console.log(`\x1b[32mAll done!\x1b[0m  Branch: \x1b[1m${targetBranch}\x1b[0m | Message: "${message}"\n`);
   } catch (err) {
-    log.error(err?.message ?? String(err));
+    log.error((err as any)?.message ?? String(err));
     process.exitCode = 1;
   } finally {
     rl.close();
