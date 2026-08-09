@@ -10,69 +10,47 @@ import swaggerUiPluginFastify from "./swaggerUi";
 import underPressurePluginFastify from "./underPressure";
 import websocketPluginFastify from "./websocket";
 import type { FastifyInstance } from "fastify";
+import { RateLimitOptions } from "@fastify/rate-limit";
+import { FastifySensibleOptions } from "@fastify/sensible";
+import { FastifyCookieOptions } from "@fastify/cookie";
+import { FastifyHelmetOptions } from "@fastify/helmet";
+import { FastifyUnderPressureOptions } from "@fastify/under-pressure";
+import { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
+import { FastifySwaggerOptions } from "@fastify/swagger";
+import { FastifyFormbodyOptions } from "@fastify/formbody";
+import { FastifyCorsOptions } from "@fastify/cors";
+import { FastifyCompressOptions } from "@fastify/compress";
 
-type Plugins = {
-    cors?: boolean;
-    formBody?: boolean;
-    swagger?: boolean;
-    swaggerUi?: boolean;
-    underPressure?: boolean;
-    websocket?: boolean;
-    helmet?: boolean;
-    cookie?: boolean;
-    sensible?: boolean;
-    rateLimit?: boolean;
-    compress?: boolean;
+export async function corsPlugin(app: FastifyInstance, options: FastifyCorsOptions) {
+    await corsPluginFastify(app, options)
 }
-
-
-export async function corsPlugin(app: FastifyInstance) {
-    await app.register(corsPluginFastify)
+export async function formBodyPlugin(app: FastifyInstance, options: FastifyFormbodyOptions) {
+    await formBodyPluginFastify(app, options)
 }
-export async function formBodyPlugin(app: FastifyInstance) {
-    await app.register(formBodyPluginFastify)
+export async function swaggerPlugin(app: FastifyInstance, options: FastifySwaggerOptions) {
+    await swaggerPluginFastify(app, options)
 }
-export async function swaggerPlugin(app: FastifyInstance) {
-    await app.register(swaggerPluginFastify)
+export async function swaggerUiPlugin(app: FastifyInstance, options: FastifySwaggerUiOptions) {
+    await swaggerUiPluginFastify(app, options)
 }
-export async function swaggerUiPlugin(app: FastifyInstance) {
-    await app.register(swaggerUiPluginFastify)
-}
-export async function underPressurePlugin(app: FastifyInstance) {
-    await app.register(underPressurePluginFastify)
+export async function underPressurePlugin(app: FastifyInstance, options: FastifyUnderPressureOptions) {
+    await underPressurePluginFastify(app, options)
 }
 export async function websocketPlugin(app: FastifyInstance) {
-    await app.register(websocketPluginFastify)
+    await websocketPluginFastify(app)
 }
-export async function helmetPlugin(app: FastifyInstance) {
-    await app.register(helmetPluginFastify)
+export async function helmetPlugin(app: FastifyInstance, options: FastifyHelmetOptions) {
+    await helmetPluginFastify(app, options)
 }
-export async function cookiePlugin(app: FastifyInstance) {
-    await app.register(cookiePluginFastify)
+export async function cookiePlugin(app: FastifyInstance, options: FastifyCookieOptions) {
+    await cookiePluginFastify(app, options)
 }
-export async function sensiblePlugin(app: FastifyInstance) {
-    await app.register(sensiblePluginFastify)
+export async function sensiblePlugin(app: FastifyInstance, options: FastifySensibleOptions) {
+    await sensiblePluginFastify(app, options)
 }
-export async function rateLimitPlugin(app: FastifyInstance) {
-    await app.register(rateLimitPluginFastify)
+export async function rateLimitPlugin(app: FastifyInstance, options: RateLimitOptions) {
+    await rateLimitPluginFastify(app, options)
 }
-export async function compressPlugin(app: FastifyInstance) {
-    await app.register(compressPluginFastify)
-}
-
-
-
-export async function registerPlugins(app: FastifyInstance,
-    plugins: Plugins = {}) {
-    plugins.cors && await app.register(corsPluginFastify);
-    plugins.formBody && await app.register(formBodyPluginFastify);
-    plugins.swagger && await app.register(swaggerPluginFastify);
-    plugins.swaggerUi && await app.register(swaggerUiPluginFastify);
-    plugins.underPressure && await app.register(underPressurePluginFastify);
-    plugins.websocket && await app.register(websocketPluginFastify);
-    plugins.helmet && await app.register(helmetPluginFastify);
-    plugins.cookie && await app.register(cookiePluginFastify);
-    plugins.sensible && await app.register(sensiblePluginFastify);
-    plugins.rateLimit && await app.register(rateLimitPluginFastify);
-    plugins.compress && await app.register(compressPluginFastify);
+export async function compressPlugin(app: FastifyInstance, options: FastifyCompressOptions) {
+    await compressPluginFastify(app, options)
 }

@@ -1,43 +1,73 @@
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
-import type { Express } from "express";
+import swaggerJSDoc, {
+    type Options as SwaggerJSDocOptions,
+} from "swagger-jsdoc";
+import swaggerUi, {
+    type SwaggerUiOptions,
+} from "swagger-ui-express";
+import type { Express, Request, Response } from "express";
 
-const swaggerSpec = swaggerJSDoc({
-    definition: {
-        openapi: "3.0.0",
+export interface SwaggerOptions {
+    swagger?: SwaggerJSDocOptions;
+    ui?: SwaggerUiOptions;
+    routePrefix?: string;
+    jsonRoute?: string;
+}
 
-        info: {
-            title: "Backend API",
-            description: "Backend API documentation",
-            version: "1.0.0",
+export default function swaggerPlugin(
+    app: Express,
+    options: SwaggerOptions = {},
+) {
+    const {
+        swagger = {},
+        ui = {},
+        routePrefix = "/docs",
+        jsonRoute = "/api-docs.json",
+    } = options;
+
+    const swaggerSpec = swaggerJSDoc({
+        definition: {
+            openapi: "3.0.0",
+
+            info: {
+                title: "Backend API",
+                description: "Backend API documentation",
+                version: "1.0.0",
+            },
+
+            tags: [
+                {
+                    name: "user",
+                    description: "User-related endpoints",
+                },
+            ],
+
+            servers: [
+                {
+                    url: "http://localhost:3000",
+                },
+            ],
+
+            ...swagger.definition,
         },
 
-        tags: [
-            {
-                name: "user",
-                description: "User-related endpoints",
-            },
+        apis: [
+            "./src/features/**/*.ts",
+            ...(swagger.apis ?? []),
         ],
 
-        servers: [
-            {
-                url: "http://localhost:3000",
-            },
-        ],
-    },
+        ...swagger,
+    });
 
-    apis: [
-        "./src/features/**/*.ts",
-    ],
-});
-
-export default function swagger(app: Express) {
     app.use(
-        "/docs",
+        routePrefix,
         swaggerUi.serve,
-        swaggerUi.setup(swaggerSpec),
+        swaggerUi.setup(swaggerSpec, ui),
     );
-    app.get("/api-docs.json", (req: Express.Request, res: any) => {
-        res.send(swaggerSpec);
-    })
+
+    app.get(
+        jsonRoute,
+        (_req: Request, res: Response) => {
+            res.json(swaggerSpec);
+        },
+    );
 }

@@ -1,8 +1,10 @@
 import rateLimit from "express-rate-limit";
+import type { Options as RateLimitOptions } from "express-rate-limit";
+import type { Express } from "express";
 
-export default rateLimit({
-    windowMs: 60 * 1000,
-    limit: 100,
-    standardHeaders: true,
-    legacyHeaders: false,
-});
+export default function rateLimitPlugin(
+    app: Express,
+    options?: RateLimitOptions,
+) {
+    app.use(rateLimit(options));
+}

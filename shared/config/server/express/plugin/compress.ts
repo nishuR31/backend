@@ -1,3 +1,6 @@
-import compression from "compression";
+import compression, { CompressionOptions } from "compression";
+import { Express } from "express";
 
-export default compression();
+export default function compressPlugin(app: Express, options: CompressionOptions) {
+    app.use(compression(options))
+};

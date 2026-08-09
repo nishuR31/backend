@@ -1,6 +1,5 @@
-import cors from "cors";
-
-export default cors({
-    origin: true,
-    credentials: true,
-});
+import cors, { CorsOptions } from "cors";
+import { Express } from "express";
+export default function corsPlugin(app: Express, options?: CorsOptions) {
+    app.use(cors(options))
+};

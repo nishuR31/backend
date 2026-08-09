@@ -1,3 +1,6 @@
-import helmet from "helmet";
+import helmet, { HelmetOptions } from "helmet";
+import { Express } from "express";
 
-export default helmet();
+export default function helmetPlugin(app: Express, options?: HelmetOptions) {
+    app.use(helmet(options))
+};

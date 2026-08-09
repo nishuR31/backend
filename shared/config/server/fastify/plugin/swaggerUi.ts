@@ -1,20 +1,7 @@
-import swaggerUi from "@fastify/swagger-ui";
+import swaggerUi, { FastifySwaggerUiOptions } from "@fastify/swagger-ui";
+import { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 
-export default fp(async (app) => {
-    await app.register(swaggerUi, {
-        routePrefix: "/docs",
-
-        uiConfig: {
-            docExpansion: "list",
-            filter: true,
-            persistAuthorization: false,
-            deepLinking: true,
-            displayRequestDuration: true,
-        },
-
-        theme: {
-            title: "Backend API Documentation",
-        },
-    });
+export default fp(async (app: FastifyInstance, options: FastifySwaggerUiOptions = {}) => {
+    await app.register(swaggerUi, options);
 });

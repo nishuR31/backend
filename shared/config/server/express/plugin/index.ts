@@ -1,3 +1,4 @@
+import type { Options as RateLimitOptions } from "express-rate-limit";
 import type { Express } from "express";
 import { Server } from "node:http";
 import corsPluginExpress from "./cors";
@@ -7,52 +8,33 @@ import helmetPluginExpress from "./helmet";
 import rateLimitPluginExpress from "./rateLimit";
 import swaggerPluginExpress from "./swagger";
 import websocketPluginExpress from "./ws";
+import { CorsOptions } from "cors";
+import { HelmetOptions } from "helmet";
+import { SwaggerOptions } from "swagger-ui-express";
+import { CompressionOptions } from "compression";
+import { CookieParseOptions } from "cookie-parser";
 
 
-interface Plugins {
-    cors: boolean;
-    swagger: boolean;
-    websocket: boolean;
-    helmet: boolean;
-    cookie: boolean;
-    rateLimit: boolean;
-    compress: boolean;
-}
 
-export function corsPlugin(app: Express) {
-    app.use(corsPluginExpress)
+export async function corsPlugin(app: Express, options?: CorsOptions) {
+    await corsPluginExpress(app, options)
 }
-export function helmetPlugin(app: Express) {
-    app.use(helmetPluginExpress)
+export async function helmetPlugin(app: Express, options?: HelmetOptions) {
+    await helmetPluginExpress(app, options)
 }
-export function swaggerPlugin(app: Express) {
-    swaggerPluginExpress(app)
+export async function swaggerPlugin(app: Express, options?: SwaggerOptions) {
+    await swaggerPluginExpress(app, options)
 }
-
-export function websocketPlugin(server: Server) {
-    websocketPluginExpress(server)
+export async function websocketPlugin(server: Server) {
+    await websocketPluginExpress(server)
 }
-export function compressPlugin(app: Express) {
-    app.use(compressPluginExpress)
+export async function compressPlugin(app: Express, options?: CompressionOptions) {
+    await compressPluginExpress(app, options as CompressionOptions)
 }
-export function cookiePlugin(app: Express) {
-    app.use(cookiePluginExpress)
+export async function cookiePlugin(app: Express, secret?: string | string[],
+    options?: CookieParseOptions) {
+    await cookiePluginExpress(app, secret, options)
 }
-export function rateLimitPlugin(app: Express) {
-    app.use(rateLimitPluginExpress)
-}
-
-export function registerPlugins(
-    app: Express,
-    plugins: Plugins,
-    server?: Server
-) {
-    plugins.cors && app.use(corsPluginExpress);
-    plugins.helmet && app.use(helmetPluginExpress);
-    plugins.cookie && app.use(cookiePluginExpress);
-    plugins.rateLimit && app.use(rateLimitPluginExpress);
-    plugins.compress && app.use(compressPluginExpress);
-    plugins.websocket && websocketPluginExpress(server!);
-    plugins.swagger && swaggerPluginExpress(app);
-
+export async function rateLimitPlugin(app: Express, options?: RateLimitOptions) {
+    await rateLimitPluginExpress(app, options)
 }
